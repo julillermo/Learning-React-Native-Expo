@@ -6,17 +6,17 @@ import {
 } from 'react-native'
 import FontAwesome from "@expo/vector-icons/FontAwesome" // FontAwesome is an icon-set form the expo ion icon pack
 
-export default function Button({ label, theme }) {
+export default function Button({ label, theme, onPress}) {
 
 
   return (theme === "primary")
     ? (
       // The inline styles override the preset loaded through the styles object.
-      // I don't get why this uses a list to setup the styling instead of object with destructued ori
+      // I don't get why this uses a list/array to setup the styling instead of object with destructued
       <View style={[styles.buttonContainer, { borderWidth: 4, borderColor: "#ffd33d", borderRadius: 18 }]}>
         <Pressable
           style={[styles.button, { backgroundColor: "#fff" }]}
-          onPress={() => { alert('You pressed a button.') }}
+          onPress={onPress}
         >
           <FontAwesome 
             name='picture-o'
@@ -32,7 +32,7 @@ export default function Button({ label, theme }) {
       <View style={styles.buttonContainer}>
         <Pressable
           style={styles.button}
-          onPress={() => { alert("You pressed a buitton.") }}
+          onPress={onPress}
         >
           <Text style={styles.buttonLabel}>{label}</Text>
         </Pressable>

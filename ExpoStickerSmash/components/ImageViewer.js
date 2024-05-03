@@ -4,12 +4,14 @@ import {
   View,
 } from "react-native";
 
-export default function ImageViewer ({ placeholderImageSource }) {
+export default function ImageViewer ({ placeholderImageSource, selectedImage, onTouchStart }) {
+  const imageSource = selectedImage ? { uri: selectedImage } : placeholderImageSource
+
   return (
     <Image 
-      source={placeholderImageSource}
+      source={imageSource}
       style={styles.image}
-      onTouchStart={() => {alert('you touched a picture.')}}
+      onTouchStart={() => {onTouchStart()}}
     />
   )
 }
