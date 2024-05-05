@@ -6,12 +6,15 @@ import {
 import ImageViewer from './components/ImageViewer';
 import Button from './components/Button';
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import IconButton from './components/IconButton';
 import CircleButton from './components/CircleButton';
 import EmojiPicker from './components/EmojiPicker';
 import EmojiList from './components/EmojiList';
 import EmojiSticker from './components/EmojiSticker';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import * as MediaLibrary from 'expo-media-library';
+import { captureRef } from 'react-native-view-shot';
 
 const PlaceholderImage = require('./assets/images/background-image.png')
 
@@ -20,6 +23,12 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [pickedEmoji, setPickedEmoji] = useState(null);
+  const [status, requestPermission] = MediaLibrary.usePermissions(null);
+  const imageRef = useRef();
+
+  if (status !== true) {
+    requestPermission();
+  }
 
   const pickImageAsync = async function () {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -42,8 +51,21 @@ export default function App() {
     setShowAppOptions(false);
   }
 
-  const onSaveImageAsync = function() {
-    // we will implement this later
+  const onSaveImageAsync = async function() {
+    // no need for ref.current???
+    try {
+      const localUri = await captureRef(imageRef, {
+        height: 440,
+        quality: 1,
+      })
+
+      await MediaLibrary.saveToLibraryAsync(localUri);
+      if (localUri) {
+        alert("Saved!");
+      }
+    } catch(e) {
+      console.log(e);
+    }
   }
 
   const onAddSticker = () => {
@@ -55,14 +77,27 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       <View style={styles.imageContainer} >
-        <ImageViewer
-          placeholderImageSource={PlaceholderImage}
-          selectedImage={selectedImage}
-          onTouchStart={pickImageAsync}
-        />
-        {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji}/>}
+        <View ref={imageRef} collapsable={false}>
+          {/* Because the `imageRef` is stated in the <View> element
+              that encloses both the emoji and the image, this allows
+              the captureRef() function to capture both??? */}
+          <ImageViewer
+            placeholderImageSource={PlaceholderImage}
+            selectedImage={selectedImage}
+            onTouchStart={pickImageAsync}
+          />
+          {/* However, the emoji isn't inlcuded when it goes past the
+              frame of the image. I'm not sure why that is. */}
+          {/* FWIU, the captured zone depends on the
+              dimensions of the parent element ??? */}
+          {/* Note as well that the captureRef won't work on specific
+              elements and components */}
+          {/* NOTE: according the react-native-view-shot github, the <ViewShot>
+              element can be used to take up the ref and specify the capture region???*/}
+          {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji}/>}
+        </View>
       </View>
       <View style={styles.footContainer}>
         {(showAppOptions)
@@ -83,7 +118,7 @@ export default function App() {
         <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
       </EmojiPicker>
       <StatusBar style="inverted" />
-    </View>
+    </GestureHandlerRootView>
   );
 }
 

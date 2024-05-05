@@ -13,12 +13,18 @@ export default function Button({ label, theme, onPress}) {
     ? (
       // The inline styles override the preset loaded through the styles object.
       // I don't get why this uses a list/array to setup the styling instead of object with destructued
+
+      // After going through the guide some more, the first element of the list can be used as a variable
+      // styling, usually when you want the animation to be reactive.
+
+      // In 'Array of Styles,' the last style object takes precedence, but this structure allows
+      // for the combination of multiple styles from different sources.
       <View style={[styles.buttonContainer, { borderWidth: 4, borderColor: "#ffd33d", borderRadius: 18 }]}>
         <Pressable
           style={[styles.button, { backgroundColor: "#fff" }]}
           onPress={onPress}
         >
-          <FontAwesome 
+          <FontAwesome
             name='picture-o'
             size={18}
             color="#25292e"
