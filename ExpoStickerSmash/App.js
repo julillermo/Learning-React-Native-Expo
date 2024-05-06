@@ -1,7 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar'; // This library is pre-installed in all expo projects
 import {
   StyleSheet,
   View,
+  Platform, // this allows use to specify platform specific code
 } from 'react-native';
 import ImageViewer from './components/ImageViewer';
 import Button from './components/Button';
@@ -15,8 +16,21 @@ import EmojiSticker from './components/EmojiSticker';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
+import DomToImage from 'dom-to-image';
 
 const PlaceholderImage = require('./assets/images/background-image.png')
+
+/**
+ * The splash image can be changed through the app.json file.
+ * The splash image is what is presented while the app is loading.
+ *
+ * If you want the splash to persist for a specific time to highlight the visuals,
+ * install `expo-splash-screen` (look through the documentation for more details)
+ */
+
+/**
+ * The app icon can be changed through the app.json as well.
+ */
 
 export default function App() {
   const [showAppOptions, setShowAppOptions] = useState(false);
@@ -52,19 +66,37 @@ export default function App() {
   }
 
   const onSaveImageAsync = async function() {
-    // no need for ref.current???
-    try {
-      const localUri = await captureRef(imageRef, {
-        height: 440,
-        quality: 1,
-      })
+    // no need for ref.current??? It depends on how the
+    // react-native-view-shot is implemented
+    if (Platform.OS !== 'web'){
+      try {
+        const localUri = await captureRef(imageRef, {
+          height: 440,
+          quality: 1,
+        })
 
-      await MediaLibrary.saveToLibraryAsync(localUri);
-      if (localUri) {
-        alert("Saved!");
+        await MediaLibrary.saveToLibraryAsync(localUri);
+        if (localUri) {
+          alert("Saved!");
+        }
+      } catch(e) {
+        console.log(e);
       }
-    } catch(e) {
-      console.log(e);
+    } else {
+      try {
+        const dataUrl = await DomToImage.toJpeg(imageRef.current, {
+          quality: 0.95,
+          width: 320,
+          height: 440,
+        });
+
+        let link = document.createElement('a');
+        link.download = 'sticker-smash.jpg';
+        link.href = dataUrl;
+        link.click();
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
@@ -117,7 +149,7 @@ export default function App() {
       <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
         <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
       </EmojiPicker>
-      <StatusBar style="inverted" />
+      <StatusBar style="light" />
     </GestureHandlerRootView>
   );
 }
