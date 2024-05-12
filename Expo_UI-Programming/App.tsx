@@ -39,17 +39,83 @@ export default function App() {
     // </View>
 
     /* IMPLEMENT A CHECKBOX */
-    <View style={styles.appContainer}>
-      <Text style={styles.appTitle}>Checkbox Example</Text>
-      <View style={styles.checkboxContainer}>
-        <MyCheckbox onChange={() => {return setChecked(!checked);}} checked={checked}/>
-        <Text style={styles.checkboxLabel}>{`⬅️ Click!`}</Text>
+    // <View style={styles.appContainer}>
+    //   <Text style={styles.appTitle}>Checkbox Example</Text>
+    //   <View style={styles.checkboxContainer}>
+    //     <MyCheckbox onChange={() => {return setChecked(!checked);}} checked={checked}/>
+    //     <Text style={styles.checkboxLabel}>{`⬅️ Click!`}</Text>
+    //   </View>
+    // </View>
+
+    /* STACK VIEWS WITH ZINDEX */
+    <View style={styles.root}>
+      <View
+        style={[
+          styles.containerZIndex,
+          {
+            backgroundColor: '#e1e4e8',
+          }
+        ]}>
+
+        {/* zIndex:0 */}
+        <View style={[styles.item, { backgroundColor: '#6638f0' }]}>
+          <Text style={styles.itemLabel}>zIndex:0</Text>
+        </View>
+
+        {/* zIndex:1 */}
+        <View style={[styles.item,
+          {
+            backgroundColor: '#5cc9f5',
+            position: 'absolute',
+            top: 32,
+            left: 32,
+            zIndex: 1,
+          }]}>
+          <Text style={styles.itemLabel}>zIndex:1</Text>
+        </View>
+
+        {/* zIndex:-1 */}
+        <View style={[styles.item,
+          {
+            backgroundColor: '#4af2a1',
+            marginTop: -16,
+            zIndex: -1,
+          }]}>
+          <Text style={[styles.itemLabel, {color: 'black'}]}>zIndex:-1</Text>
+        </View>
+
+        {/* zIndex:2 */}
+        {/* You can even make the component extend outside of the parent's visual bounds */}
+        <View style={[styles.item,
+          {
+            backgroundColor: '#dfc73f',
+            top: -160,
+            left: -64,
+            zIndex: 2,
+          }]}>
+          <Text style={[styles.itemLabel, {color: 'black'}]}>zIndex:2</Text>
+        </View>
+
+        {/* zIndex:-2 */}
+        {/* An absolute position must still respect the zIndex*/}
+        {/* But the elements are still with respect the and contained within the
+          zIndex of their parent container */}
+        <View style={[styles.item,
+          {
+            backgroundColor: '#3fdfcc',
+            top: -192,
+            left: -32,
+            zIndex: 1,
+          }]}>
+          <Text style={[styles.itemLabel, {color: 'black'}]}>zIndex:-2</Text>
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  /* ELEMENT IN FRONT OF BACKGROUND */
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -64,10 +130,25 @@ const styles = StyleSheet.create({
     fontSize: 42,
     fontWeight: 'bold',
     textAlign: 'center',
-    backgroundColor: '#000000a0',
+    backgroundColor: '#000000c0',
   },
 
-
+  /* IMPLEMENT A CHECKBOX */
+  appContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  appTitle: {
+    marginVertical: 16,
+    fontWeight: 'bold',
+    fontSize: 24,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   checkboxBase: {
     width: 24,
     height: 24,
@@ -81,23 +162,39 @@ const styles = StyleSheet.create({
   checkboxChecked: {
     backgroundColor: 'coral',
   },
-  appContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  appTitle: {
-    marginVertical: 16,
-    fontWeight: 'bold',
-    fontSize: 24,
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   checkboxLabel: {
     marginLeft: 8,
     fontWeight: '500',
     fontSize: 18,
   },
+
+  /* STACK VIEWS WITH ZINDEX */
+
+  root: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  containerZIndex: {
+    height: 200,
+    width: 200,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 8,
+    borderColor: 'rgba(0,0,0,0.2)',
+  },
+  item:{
+    borderWidth: 4,
+    borderColor: 'rgba(0,0,0,0.2)',
+    height: 48,
+    width: 48,
+    borderRadius: 8,
+  },
+  itemLabel: { // I made this, and this doesn't seem to do anything
+    display: 'flex',
+    color: 'white',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  }
 });
