@@ -1,0 +1,42 @@
+## Things mentioned in the [State of React Native 2025 survey](https://results.2025.stateofreactnative.com/en-US/) that I'm interested in trying out
+- **Platform API**
+  - `<> Camera`
+  - `<> Deep Links`
+  - `<> Notifications`
+  - `<> Permissions`
+  - `<> Persistent Storage`
+  - `<> Permissions`
+  - `<> Appearance` (light / dark mode)
+  - `<> File System`
+  - `<> Clipboard`
+  - `<> Haptics`
+  - `<> Location`
+  - `<> Maps`
+  - `<> Background Processing`
+  - `<> Screen Orientation`
+  - `<> Accessbility (a11y)`
+  - `<> Video Playback`
+  - `<> Microphone`
+  - `<> Calendar and Reminders`
+  - `<> Contacts`
+  - `<> Bluetooh`
+  - `<> Cryptography`
+  - `<> Sensors`
+  - `<> Battery`
+  - `<> Telephony`
+  - `<> Voice Recognition`
+  - `<> NFC`
+  - `<> 3D Graphics`
+  - `<> GPU Processing`
+  - `<> Printer`
+  - `<> AR`
+- **Libraries**
+  - React Native Reanimated - ([docs](https://docs.swmansion.com/react-native-reanimated/)
+  - React Navigation - ([docs](https://reactnavigation.org/)
+  - Tamagui UI - ([docs](https://tamagui.dev/)
+  - React Three Fiber ([docs](https://r3f.docs.pmnd.rs/getting-started/introduction))
+- **Debugging and Profiling**
+  - React Native DevTools
+- **Testing and Monitoring**
+  - React Native Testing Library
+  - Maestro
