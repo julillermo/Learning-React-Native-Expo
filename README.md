@@ -31,9 +31,9 @@
   - `<> Printer`
   - `<> AR`
 - **Libraries**
-  - React Native Reanimated - ([docs](https://docs.swmansion.com/react-native-reanimated/)
-  - React Navigation - ([docs](https://reactnavigation.org/)
-  - Tamagui UI - ([docs](https://tamagui.dev/)
+  - React Native Reanimated - ([docs](https://docs.swmansion.com/react-native-reanimated/))
+  - React Navigation - ([docs](https://reactnavigation.org/))
+  - Tamagui UI - ([docs](https://tamagui.dev/))
   - React Three Fiber ([docs](https://r3f.docs.pmnd.rs/getting-started/introduction))
 - **Debugging and Profiling**
   - React Native DevTools
